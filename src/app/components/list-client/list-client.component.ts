@@ -1,3 +1,5 @@
+import { Client } from './../../models/client';
+import { ClientService } from './../../services/client.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListClientComponent implements OnInit {
 
-  constructor() { }
+  clients: Client[] = [];
+  constructor(private clientService: ClientService) { }
 
   ngOnInit() {
+    this.getAllClients();
+  }
+
+  getAllClients() {
+    this.clientService.getClients()
+                      .subscribe((res: Client[]) => {
+                        this.clients = res
+                        console.log(res);
+                      })
+  }
+
+  removeClient(id) {
+    this.clientService.deleteClient(id)
+                      .then(res => console.log(res))
+                      .catch(err => console.error(err))
   }
 
 }
