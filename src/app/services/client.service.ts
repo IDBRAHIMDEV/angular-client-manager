@@ -24,11 +24,25 @@ export class ClientService {
     );
   }
 
-  persistClient(client) {
+  persistClient(client: Client) {
     return this.clientsCollection.add(client);
   }
 
-  deleteClient(id) {
+  deleteClient(id: string) {
     return this.clientsCollection.doc(id).delete();
+  }
+
+  getClient(id: string) {
+    return this.clientsCollection.doc(id).valueChanges();
+  }
+
+  updateClient(client) {
+    return this.clientsCollection.doc(client.id).update(client);
+  }
+
+  toggleActiveClient(client: Client) {
+    return this.clientsCollection.doc(client.id).update({
+      active: !client.active
+    });
   }
 }

@@ -9,6 +9,15 @@
 </div>
 
 <div class="row">
+  <div class="col-md-8">
+    <input (keyup)="searchClient()" name="search" [(ngModel)]="search" type="text" placeholder="Search..." class="form-control">
+  </div>
+  <div class="col-md-4 text-right">
+    <h4><span class="badge badge-success">Total: {{ total }}</span>  </h4>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-md-12">
     <table class="table">
       <thead>
@@ -21,8 +30,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let client of clients" (dblclick)="removeClient(client.id)">
+        <tr *ngFor="let client of searchClients" (dblclick)="removeClient(client.id)">
           <td scope="row">
+            
+            <button class="btn btn-sm mr-3" [ngClass]="{
+              'btn-success': client?.active,
+              'btn-danger': !client?.active
+            }"
+            (click)="toggleActive(client)"
+            >
+              <i class="fa fa-power-off"></i>
+            </button>
+            
             {{ client.lastName | titlecase }} {{ client.firstName | uppercase }}
             <small>{{ client?.city }}</small>
           </td>
@@ -30,8 +49,8 @@
           <td>{{ client.email }}</td>
           <td>{{ client.balance }}</td>
           <td class="test-right">
-            <a href="" class="btn btn-dark btn-sm mr-1"><i class="fa fa-pencil"></i></a>
-            <a href="" class="btn btn-success btn-sm mr-1"><i class="fa fa-eye"></i></a>
+            <a [routerLink]="['/clients/edit', client.id]" class="btn btn-dark btn-sm mr-1"><i class="fa fa-pencil"></i></a>
+            <a [routerLink]="['/clients/show', client.id]" class="btn btn-success btn-sm mr-1"><i class="fa fa-eye"></i></a>
             <button (click)="removeClient(client.id)" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button>
           </td>
         </tr>

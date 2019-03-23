@@ -8,4 +8,5 @@ export interface Client {
     subscribe?: boolean;
     city?: string;
     contact?: object;
+    active?: boolean;
 }
